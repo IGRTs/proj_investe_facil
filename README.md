@@ -41,6 +41,22 @@ Isso compila `src/input.css` para `src/output.css` e mantém a geração de CSS 
 
 > Se você usar outro servidor Tomcat, ajuste o caminho de deploy e a porta conforme necessário.
 
+## Banco de dados MySQL
+
+O projeto usa um banco de dados MySQL chamado `db_investe_facil`.
+
+1. Abra o painel do XAMPP e inicie o MySQL.
+2. Abra `phpMyAdmin` em `http://localhost/phpmyadmin`.
+3. Crie o banco de dados `db_investe_facil`.
+4. Execute os códigos listados em sql_console.
+
+Se você usar as configurações padrão do XAMPP, o usuário é:
+
+- Usuário: `root`
+- Senha: (vazia)
+
+> Ajuste a conexão no seu código JSP/Java caso tenha outra senha ou usuário configurado.
+
 ## Observações
 
 - Não inclua `node_modules/` no Git.

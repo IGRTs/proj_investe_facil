@@ -1,0 +1,25 @@
+CREATE DATABASE db_investe_facil;
+USE db_investe_facil;
+CREATE TABLE Usuarios (
+    cod_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    user_nome VARCHAR(150) NOT NULL,
+    user_email VARCHAR(150) NOT NULL UNIQUE,
+    user_senha VARCHAR(150) NOT NULL,
+    user_salario FLOAT,
+    user_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    user_nascimento DATE,
+    simulacoes INT,
+    user_cidade VARCHAR(200),
+    user_telefone VARCHAR(15)
+);
+CREATE TABLE investimento (
+    id_investimento INT AUTO_INCREMENT PRIMARY KEY,
+    cod_usuario INT,
+    fundos FLOAT,
+    modalidade VARCHAR(30),
+    periodo_aplicacao INT,
+    juros FLOAT,
+    rendimento FLOAT,
+    FOREIGN KEY (cod_usuario) REFERENCES Usuarios(cod_usuario)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
