@@ -1,0 +1,17 @@
+{
+  "name": "proj_investe_facil",
+  "version": "1.0.0",
+  "description": "Projeto para a matéria de Projeto de extensão Web Standards sprint 3",
+  "main": "registro.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx @tailwindcss/cli -i ./src/input.css -o ./src/output.css --watch"
+  },
+  "author": "Igor, Emilly, Douglas",
+  "license": "MIT",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.0",
+    "flyonui": "^2.4.1",
+    "tailwindcss": "^4.3.0"
+  }
+}
