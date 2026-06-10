@@ -1,25 +1,42 @@
 CREATE DATABASE db_investe_facil;
 USE db_investe_facil;
+
 CREATE TABLE Usuarios (
-    cod_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    user_nome VARCHAR(150) NOT NULL,
-    user_email VARCHAR(150) NOT NULL UNIQUE,
-    user_senha VARCHAR(150) NOT NULL,
-    user_salario FLOAT,
-    user_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    cod_usuario     INT           AUTO_INCREMENT PRIMARY KEY,
+    user_nome       VARCHAR(150)  NOT NULL,
+    user_email      VARCHAR(150)  NOT NULL UNIQUE,
+    user_senha      VARCHAR(150)  NOT NULL,
+    user_salario    FLOAT,
+    user_criacao    DATETIME      DEFAULT CURRENT_TIMESTAMP,
     user_nascimento DATE,
-    simulacoes INT,
-    user_cidade VARCHAR(200),
-    user_telefone VARCHAR(15)
+    simulacoes      INT           DEFAULT 0,
+    user_cidade     VARCHAR(200),
+    user_telefone   VARCHAR(15)
 );
+
 CREATE TABLE investimento (
-    id_investimento INT AUTO_INCREMENT PRIMARY KEY,
-    cod_usuario INT,
-    fundos FLOAT,
-    modalidade VARCHAR(30),
-    periodo_aplicacao INT,
-    juros FLOAT,
-    rendimento FLOAT,
+    id_investimento   INT          AUTO_INCREMENT PRIMARY KEY,
+    cod_usuario       INT          NOT NULL,
+    fundos            FLOAT        NOT NULL                    COMMENT 'Valor inicial (aporte)',
+    aportes_mensais   FLOAT        NOT NULL DEFAULT 0          COMMENT 'Contribuição mensal opcional',
+    modalidade        VARCHAR(30)                              COMMENT 'Tipo de investimento: CDB, CDI etc.',
+    periodo_aplicacao INT          NOT NULL                    COMMENT 'Duração numérica do prazo',
+    tipo_prazo        VARCHAR(10)  NOT NULL DEFAULT 'Meses'    COMMENT 'Unidade do prazo: Meses ou Anos',
+    tipo_rentabilidade VARCHAR(20) NOT NULL DEFAULT 'Pos-fixado' COMMENT 'Pos-fixado (CDI) ou Prefixado',
+    taxa_cdi          FLOAT                                    COMMENT 'Taxa CDI atual em % — preenchido quando Pos-fixado',
+    porcentagem_cdi   FLOAT                 DEFAULT 100        COMMENT '% do CDI contratada no título',
+    juros             FLOAT                                    COMMENT 'Taxa de juros aplicada na simulação',
+    rendimento        FLOAT                                    COMMENT 'Rendimento calculado ao final do período',
+
     FOREIGN KEY (cod_usuario) REFERENCES Usuarios(cod_usuario)
-        ON DELETE CASCADE ON UPDATE CASCADE
+        ON DELETE CASCADE ON UPDATE CASCADE,
+
+    CONSTRAINT chk_tipo_prazo
+        CHECK (tipo_prazo IN ('Meses', 'Anos')),
+
+    CONSTRAINT chk_tipo_rentabilidade
+        CHECK (tipo_rentabilidade IN ('Pos-fixado', 'Prefixado')),
+
+    CONSTRAINT chk_porcentagem_cdi
+        CHECK (porcentagem_cdi IS NULL OR porcentagem_cdi BETWEEN 0 AND 300)
 );

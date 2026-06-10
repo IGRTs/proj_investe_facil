@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Educação Financeira | Investe Fácil</title>
+    <link href="./output.css" rel="stylesheet" />
+    <script>
+      // JavaScript para controle de abas na seção de educação financeira
+      document.addEventListener("DOMContentLoaded", () => {
+        // pegamos o registro de cada botão usando o atributo data-tab-button e o mesmo para os painéis usando data-tab-panel
+        const tabButtons = document.querySelectorAll("[data-tab-button]");
+        const tabPanels = document.querySelectorAll("[data-tab-panel]");
+
+        // função para ativar a aba correspondente ao botão clicado, mostrando o painel relacionado e ocultando os outros
+        function activateTab(targetId) {
+          tabButtons.forEach((button) => {
+            const isActive = button.dataset.tabButton === targetId;
+            button.classList.toggle("bg-blue-600", isActive);
+            button.classList.toggle("text-white", isActive);
+            button.classList.toggle("shadow-md", isActive);
+            button.classList.toggle("bg-white", !isActive);
+            button.classList.toggle("text-gray-700", !isActive);
+            button.setAttribute("aria-selected", String(isActive));
+          });
+
+          // mostramos o painel correspondente ao botão clicado e ocultamos os outros
+          tabPanels.forEach((panel) => {
+            panel.hidden = panel.dataset.tabPanel !== targetId;
+          });
+        }
+
+        tabButtons.forEach((button) => {
+          button.addEventListener("click", () =>
+            activateTab(button.dataset.tabButton),
+          );
+        });
+
+        // ativamos a primeira aba por padrão
+        activateTab("cdb");
+      });
+    </script>
+  </head>
+  <body class="min-h-screen bg-gray-100 text-gray-800">
+    <div class="relative min-h-screen px-6 py-6">
+      <header class="absolute left-4 top-4 z-10">
+        <a
+          href="index.html"
+          class="inline-flex items-center gap-3 rounded-full bg-white px-4 py-2 shadow-md transition hover:bg-gray-50"
+        >
+          <span
+            class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-blue-700"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              class="h-5 w-5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+          </span>
+          <span class="text-base font-semibold text-gray-800"
+            >Voltar ao Menu</span
+          >
+        </a>
+      </header>
+
+      <main
+        class="mx-auto flex min-h-screen w-full max-w-6xl flex-col justify-center pt-16"
+      >
+        <section class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+          <article
+            class="rounded-3xl bg-white p-8 shadow-xl ring-1 ring-gray-200 md:p-10"
+          >
+            <p class="text-sm uppercase tracking-[0.25em] text-blue-600">
+              Educação Financeira
+            </p>
+            <h1 class="mt-3 text-3xl font-semibold text-gray-900 md:text-4xl">
+              Entenda os principais conceitos em poucos minutos
+            </h1>
+            <p class="mt-4 max-w-2xl text-base text-gray-600 md:text-lg">
+              Escolha cada guia para ver uma explicação rápida sobre como os
+              investimentos funcionam e por que eles podem fazer diferença no
+              seu planejamento.
+            </p>
+
+            <div
+              class="mt-8 flex flex-wrap gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-3"
+            >
+              <button
+                type="button"
+                data-tab-button="cdb"
+                aria-selected="true"
+                class="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                CDB
+              </button>
+              <button
+                type="button"
+                data-tab-button="cdi"
+                aria-selected="false"
+                class="rounded-full bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-gray-200 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                CDI
+              </button>
+              <button
+                type="button"
+                data-tab-button="poupanca"
+                aria-selected="false"
+                class="rounded-full bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm ring-1 ring-gray-200 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              >
+                Poupança
+              </button>
+            </div>
+
+            <div
+              class="mt-6 rounded-3xl border border-gray-200 bg-gray-50 p-6 shadow-inner"
+            >
+              <section data-tab-panel="cdb" class="space-y-4">
+                <p class="text-sm uppercase tracking-[0.25em] text-emerald-600">
+                  Guia 1
+                </p>
+                <h2 class="text-2xl font-semibold text-gray-900">
+                  CDB: investimento com rendimento previsível
+                </h2>
+                <p class="text-gray-700">
+                  O CDB é um título de renda fixa emitido por bancos. Ele
+                  costuma oferecer rendimento atrelado ao CDI, o que ajuda a ter
+                  uma ideia de quanto poderá ganhar ao longo do tempo.
+                </p>
+                <p class="text-gray-700">
+                  É uma opção interessante para quem quer investir com mais
+                  segurança e com um planejamento mais claro, especialmente
+                  quando o objetivo é preservar o capital e ter retorno gradual.
+                </p>
+              </section>
+
+              <section data-tab-panel="cdi" hidden class="space-y-4">
+                <p class="text-sm uppercase tracking-[0.25em] text-amber-600">
+                  Guia 2
+                </p>
+                <h2 class="text-2xl font-semibold text-gray-900">
+                  CDI: a referência para boa parte dos investimentos
+                </h2>
+                <p class="text-gray-700">
+                  O CDI é a taxa de juros usada como referência para muitos
+                  produtos de renda fixa. Quando um investimento diz que rende
+                  100% do CDI, ele acompanha a variação dessa taxa ao longo do
+                  período.
+                </p>
+                <p class="text-gray-700">
+                  Por isso, entender o CDI ajuda a comparar opções de
+                  investimento e perceber quais produtos podem oferecer melhor
+                  retorno proporcional ao risco assumido.
+                </p>
+              </section>
+
+              <section data-tab-panel="poupanca" hidden class="space-y-4">
+                <p class="text-sm uppercase tracking-[0.25em] text-violet-600">
+                  Guia 3
+                </p>
+                <h2 class="text-2xl font-semibold text-gray-900">
+                  Poupança: alternativa simples, mas com limite de rendimento
+                </h2>
+                <p class="text-gray-700">
+                  A poupança é uma das opções mais conhecidas e fáceis de usar,
+                  mas seus rendimentos costumam ser menores do que os de
+                  produtos como CDB e fundos de renda fixa.
+                </p>
+                <p class="text-gray-700">
+                  Mesmo assim, ela continua sendo útil para quem busca
+                  praticidade e estabilidade, principalmente para reserva de
+                  emergência ou objetivos de curto prazo.
+                </p>
+              </section>
+            </div>
+          </article>
+
+          <aside
+            class="rounded-3xl bg-white p-6 shadow-xl ring-1 ring-gray-200 md:p-8"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-100 text-emerald-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  class="h-6 w-6"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 3v18M6 9c1.5-1.5 3-2.5 6-2.5s4.5 1 6 2.5"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M6 15c1.5 1.5 3 2.5 6 2.5s4.5-1 6-2.5"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-xl font-semibold text-gray-900">
+                  Resumo rápido
+                </h2>
+                <p class="text-sm text-gray-500">
+                  Veja o conceito principal de cada opção.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-6 space-y-4">
+              <article
+                class="rounded-2xl border border-blue-100 bg-blue-50 p-4"
+              >
+                <p class="text-xs uppercase tracking-[0.2em] text-blue-700">
+                  CDB
+                </p>
+                <p class="mt-2 text-sm text-blue-900">
+                  Ótimo para quem deseja previsibilidade e rendimentos atrelados
+                  ao CDI.
+                </p>
+              </article>
+              <article
+                class="rounded-2xl border border-amber-100 bg-amber-50 p-4"
+              >
+                <p class="text-xs uppercase tracking-[0.2em] text-amber-700">
+                  CDI
+                </p>
+                <p class="mt-2 text-sm text-amber-900">
+                  Serve como referência para comparar a rentabilidade dos
+                  principais produtos de renda fixa.
+                </p>
+              </article>
+              <article
+                class="rounded-2xl border border-violet-100 bg-violet-50 p-4"
+              >
+                <p class="text-xs uppercase tracking-[0.2em] text-violet-700">
+                  Poupança
+                </p>
+                <p class="mt-2 text-sm text-violet-900">
+                  Mantém a simplicidade, mas normalmente rende menos do que
+                  outras opções.
+                </p>
+              </article>
+            </div>
+
+            <a
+              href="investimento.jsp"
+              class="mt-8 inline-flex items-center justify-center rounded-full bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+              >Ir para o simulador</a
+            >
+          </aside>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

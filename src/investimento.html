@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Simulador de Investimentos</title>
+		<script src="https://cdn.tailwindcss.com"></script>
+	</head>
+	<body class="relative min-h-screen bg-gray-100 flex items-center justify-center p-6">
+		<div class="absolute top-4 left-4 z-10">
+			<a href="index.jsp" class="inline-flex items-center gap-3 rounded-full bg-white px-4 py-2 shadow-md transition hover:bg-gray-50">
+				<span class="flex h-9 w-9 items-center justify-center rounded-full bg-blue-100 text-blue-700">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+					</svg>
+				</span>
+				<span class="text-base font-semibold text-gray-800">Voltar ao Menu</span>
+			</a>
+		</div>
+		<div class="w-full max-w-5xl pt-12">
+			<div class="grid gap-6 md:grid-cols-2">
+				<div class="bg-white shadow-lg rounded-lg overflow-hidden">
+					<div class="px-6 py-5 border-b">
+						<div class="flex items-center gap-3">
+							<div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-700 shadow-sm">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M3 18h18M7 15l3-3 3 2 4-6"/>
+								</svg>
+							</div>
+							<div>
+								<h1 class="text-2xl font-semibold text-gray-800">Simulador de Investimentos</h1>
+								<p class="text-sm text-gray-500 mt-1">Compare CDB e CDI em um único painel.</p>
+							</div>
+						</div>
+					</div>
+					<div class="p-6">
+						<form id="simulador-investimento" name="formInvestimento" method="post" action="investimento.jsp" class="space-y-4">
+							<div>
+								<label class="block text-sm font-medium text-gray-700 mb-1">Tipo de investimento</label>
+								<div class="grid gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-3 sm:grid-cols-2">
+									<label class="flex cursor-pointer items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-gray-200">
+										<input type="radio" name="modalidade" value="CDB" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500" />
+										<span class="text-sm text-gray-700">CDB</span>
+									</label>
+									<label class="flex cursor-pointer items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-gray-200">
+										<input type="radio" name="modalidade" value="CDI" class="h-4 w-4 text-blue-600 focus:ring-blue-500" />
+										<span class="text-sm text-gray-700">CDI</span>
+									</label>
+								</div>
+								<p class="mt-2 text-xs text-gray-500">Escolha o produto que deseja simular.</p>
+							</div>
+
+							<div>
+								<label class="block text-sm font-medium text-gray-700 mb-1">Valor inicial (aporte)</label>
+								<input name="aporte_inicial" id="aporte-inicial" type="number" step="0.01" min="0" placeholder="10000" value="10000" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+							</div>
+
+							<div>
+								<label class="block text-sm font-medium text-gray-700 mb-1">Aportes mensais</label>
+								<input name="aportes_mensais" id="aportes-mensais" type="number" step="0.01" min="0" placeholder="500" value="500" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+								<p class="mt-1 text-xs text-gray-500">Campo opcional para contribuições mensais.</p>
+							</div>
+
+							<div>
+								<label class="block text-sm font-medium text-gray-700 mb-1">Prazo</label>
+								<div class="grid gap-3 sm:grid-cols-[1fr_0.8fr]">
+									<input name="prazo" id="prazo" type="number" min="1" placeholder="24" value="24" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+									<select name="tipo_prazo" id="prazo-unidade" class="w-full rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
+										<option value="meses">Meses</option>
+										<option value="anos">Anos</option>
+									</select>
+								</div>
+							</div>
+
+							<div>
+								<label class="block text-sm font-medium text-gray-700 mb-1">Tipo de rentabilidade</label>
+								<div class="grid gap-3 rounded-2xl border border-gray-200 bg-gray-50 p-3 sm:grid-cols-2">
+									<label class="flex cursor-pointer items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-gray-200">
+										<input type="radio" name="tipo_rentabilidade" value="Pos-fixado" checked class="h-4 w-4 text-blue-600 focus:ring-blue-500" />
+										<span class="text-sm text-gray-700">Pós-fixado (CDI)</span>
+									</label>
+									<label class="flex cursor-pointer items-center gap-2 rounded-xl bg-white px-3 py-2 shadow-sm ring-1 ring-gray-200">
+										<input type="radio" name="tipo_rentabilidade" value="Prefixado" class="h-4 w-4 text-blue-600 focus:ring-blue-500" />
+										<span class="text-sm text-gray-700">Prefixado</span>
+									</label>
+								</div>
+							</div>
+
+							<div id="cdi-block" class="space-y-4 rounded-2xl border border-blue-100 bg-blue-50 p-4">
+								<div>
+									<label class="block text-sm font-medium text-gray-700 mb-1">Taxa CDI atual (%)</label>
+									<input name="taxa_cdi" id="taxa-cdi-atual" type="number" step="0.01" min="0" placeholder="10,50" value="10.5" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+								</div>
+								<div>
+									<label id="rate-label" class="block text-sm font-medium text-gray-700 mb-1">Porcentagem do CDI (%)</label>
+									<input name="porcentagem_cdi" id="percentual-cdi" type="number" step="0.1" min="0" placeholder="100" value="100" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+									<p id="rate-hint" class="mt-1 text-xs text-gray-500">Use 100% para o rendimento padrão do CDI.</p>
+								</div>
+							</div>
+
+							<div id="prefixado-block" class="hidden rounded-2xl border border-amber-100 bg-amber-50 p-4">
+								<label class="block text-sm font-medium text-gray-700 mb-1">Taxa prefixada anual (%)</label>
+								<input name="taxa_prefixada" id="taxa-prefixada" type="number" step="0.01" min="0" placeholder="11" value="11" class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+								<p class="mt-1 text-xs text-gray-500">A rentabilidade fixa será aplicada no cálculo anual.</p>
+							</div>
+
+							<div class="pt-2">
+								<button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Calcular simulação</button>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<aside class="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col">
+					<div class="px-6 py-5 border-b">
+						<div class="flex items-center gap-3">
+							<div class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-100 text-emerald-700 shadow-sm">
+								<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-5 w-5">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M6 9c1.5-1.5 3-2.5 6-2.5s4.5 1 6 2.5"/>
+									<path stroke-linecap="round" stroke-linejoin="round" d="M6 15c1.5 1.5 3 2.5 6 2.5s4.5-1 6-2.5"/>
+								</svg>
+							</div>
+							<div>
+								<h2 class="text-xl font-semibold text-gray-800">Resultados estimados</h2>
+								<p class="text-sm text-gray-500 mt-1">Confira o resumo do investimento.</p>
+							</div>
+						</div>
+					</div>
+					<div class="p-6 flex-1 flex flex-col">
+						<div class="rounded-xl border border-gray-200 bg-gray-50 p-4 space-y-4 h-full">
+							<div class="rounded-lg bg-blue-50 border border-blue-100 p-4 shadow-sm">
+								<div class="flex items-center gap-2 text-blue-700">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-6-6h12"/>
+									</svg>
+									<p class="text-xs uppercase tracking-wide font-semibold">Valor total bruto</p>
+								</div>
+								<p id="valor-bruto" class="mt-2 text-2xl font-semibold text-blue-900">R$ 0,00</p>
+							</div>
+							<div class="rounded-lg bg-emerald-50 border border-emerald-100 p-4 shadow-sm">
+								<div class="flex items-center gap-2 text-emerald-700">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
+									</svg>
+									<p class="text-xs uppercase tracking-wide font-semibold">Alíquota de IR</p>
+								</div>
+								<p id="aliquota-ir" class="mt-2 text-2xl font-semibold text-emerald-700">0,0%</p>
+							</div>
+							<div class="rounded-lg bg-violet-50 border border-violet-100 p-4 shadow-sm">
+								<div class="flex items-center gap-2 text-violet-700">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M12 3l7 4v5c0 4.2-2.7 7.8-7 9-4.3-1.2-7-4.8-7-9V7l7-4z"/>
+									</svg>
+									<p class="text-xs uppercase tracking-wide font-semibold">Valor descontado de IR</p>
+								</div>
+								<p id="valor-ir" class="mt-2 text-2xl font-semibold text-violet-700">R$ 0,00</p>
+							</div>
+							<div class="rounded-lg bg-amber-50 border border-amber-200 p-4 shadow-sm">
+								<div class="flex items-center gap-2 text-amber-700">
+									<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="h-4 w-4">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3M12 3a9 9 0 1 0 9 9"/>
+									</svg>
+									<p class="text-xs uppercase tracking-wide font-semibold">Valor líquido</p>
+								</div>
+								<p id="valor-liquido" class="mt-2 text-xl font-semibold text-amber-800">R$ 0,00</p>
+								<p class="mt-1 text-xs text-amber-700">Rendimento líquido: <span id="rendimento-liquido">R$ 0,00</span></p>
+								<p class="mt-1 text-xs text-amber-700">Taxa anual estimada: <span id="taxa-anual">0,00%</span></p>
+								<p class="mt-1 text-xs text-amber-700">Prazo total: <span id="prazo-resumo">0 meses</span></p>
+							</div>
+						</div>
+						<p class="text-sm text-gray-500 mt-4">Os valores são calculados com base no aporte inicial, aportes mensais, rentabilidade escolhida e tabela regressiva do IR.</p>
+					</div>
+				</aside>
+			</div>
+		</div>
+	</body>
+</html>
