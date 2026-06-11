@@ -1,22 +1,7 @@
 CREATE DATABASE db_investe_facil;
 USE db_investe_facil;
-
-CREATE TABLE Usuarios (
-    cod_usuario     INT           AUTO_INCREMENT PRIMARY KEY,
-    user_nome       VARCHAR(150)  NOT NULL,
-    user_email      VARCHAR(150)  NOT NULL UNIQUE,
-    user_senha      VARCHAR(150)  NOT NULL,
-    user_salario    FLOAT,
-    user_criacao    DATETIME      DEFAULT CURRENT_TIMESTAMP,
-    user_nascimento DATE,
-    simulacoes      INT           DEFAULT 0,
-    user_cidade     VARCHAR(200),
-    user_telefone   VARCHAR(15)
-);
-
 CREATE TABLE investimento (
     id_investimento   INT          AUTO_INCREMENT PRIMARY KEY,
-    cod_usuario       INT          NOT NULL,
     fundos            FLOAT        NOT NULL                    COMMENT 'Valor inicial (aporte)',
     aportes_mensais   FLOAT        NOT NULL DEFAULT 0          COMMENT 'Contribuição mensal opcional',
     modalidade        VARCHAR(30)                              COMMENT 'Tipo de investimento: CDB, CDI etc.',
@@ -27,9 +12,6 @@ CREATE TABLE investimento (
     porcentagem_cdi   FLOAT                 DEFAULT 100        COMMENT '% do CDI contratada no título',
     juros             FLOAT                                    COMMENT 'Taxa de juros aplicada na simulação',
     rendimento        FLOAT                                    COMMENT 'Rendimento calculado ao final do período',
-
-    FOREIGN KEY (cod_usuario) REFERENCES Usuarios(cod_usuario)
-        ON DELETE CASCADE ON UPDATE CASCADE,
 
     CONSTRAINT chk_tipo_prazo
         CHECK (tipo_prazo IN ('Meses', 'Anos')),

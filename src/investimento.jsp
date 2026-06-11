@@ -4,6 +4,8 @@
 <%@ page import="java.text.DecimalFormatSymbols" %>
 <%@ page import="java.util.Locale" %>
 <%!
+
+    // Inicia-se todo o proceso de cálculo de investimento
     private String formatCurrency(double valor) {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("pt", "BR"));
         DecimalFormat fmt = new DecimalFormat("#,##0.00", symbols);
@@ -91,43 +93,37 @@
     String mensagem = "";
     Integer codUsuario = (Integer) session.getAttribute("codUsuario");
 
-    // somente tenta salvar a simulação no banco de dados se o método da requisição for POST, ou seja, quando o formulário for submetido. Isso evita que a simulação seja salva apenas por acessar a página ou atualizar o navegador
-    if (request.getMethod().equalsIgnoreCase("POST")) {
-        if (codUsuario == null) {
-            mensagem = "Faça login para salvar a simulação no banco de dados.";
-        } else {
-            String database = "db_investe_facil";
-            String endereco = "jdbc:mysql://localhost:3306/" + database;
-            String usuario = "root";
-            String senha = "";
-            String driver = "com.mysql.jdbc.Driver";
-            String sql = "INSERT INTO investimento (cod_usuario, fundos, aportes_mensais, modalidade, periodo_aplicacao, tipo_prazo, tipo_rentabilidade, taxa_cdi, porcentagem_cdi, juros, rendimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-            // o código para salvar a simulação no banco de dados é colocado dentro de um bloco try-catch para tratar possíveis erros que possam ocorrer durante a conexão com o banco ou a execução da query. Se a simulação for salva com sucesso, a variável salvoNoBanco é setada como true e a mensagem de sucesso é atribuída à variável mensagem. Caso ocorra algum erro, a mensagem de erro é atribuída à variável mensagem para que possa ser exibida ao usuário posteriormente
-            try {
-                Class.forName(driver);
-                try (Connection conexao = DriverManager.getConnection(endereco, usuario, senha);
-                     PreparedStatement stm = conexao.prepareStatement(sql)) {
-                    stm.setInt(1, codUsuario);
-                    stm.setDouble(2, aporteInicial);
-                    stm.setDouble(3, aportesMensais);
-                    stm.setString(4, modalidade);
-                    stm.setInt(5, prazo);
-                    stm.setString(6, tipoPrazo);
-                    stm.setString(7, tipoRentabilidade);
-                    stm.setDouble(8, taxaCdi);
-                    stm.setDouble(9, porcentagemCdi);
-                    stm.setDouble(10, jurosAnual);
-                    stm.setDouble(11, rendimentoBruto);
-                    stm.executeUpdate();
-                    salvoNoBanco = true;
-                    mensagem = "Simulação salva com sucesso.";
-                }
-            } catch (Exception e) {
-                mensagem = "Erro ao salvar a simulação: " + e.getMessage();
-            }
+    // salva o investimento no banco de dados
+    String endereco = "jdbc:mysql://localhost:3306/db_investe_facil";
+    String usuario = "root";
+    String senha = "";
+    String driver = "com.mysql.jdbc.Driver";
+    String sql = "INSERT INTO investimento (fundos, aportes_mensais, modalidade, periodo_aplicacao, tipo_prazo, tipo_rentabilidade, taxa_cdi, porcentagem_cdi, juros, rendimento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    // o código para salvar a simulação no banco de dados é colocado dentro de um bloco try-catch para tratar possíveis erros que possam ocorrer durante a conexão com o banco ou a execução da query. Se a simulação for salva com sucesso, a variável salvoNoBanco é setada como true e a mensagem de sucesso é atribuída à variável mensagem. Caso ocorra algum erro, a mensagem de erro é atribuída à variável mensagem para que possa ser exibida ao usuário posteriormente
+    try {
+        Class.forName(driver);
+        try (Connection conexao = DriverManager.getConnection(endereco, usuario, senha);
+              PreparedStatement stm = conexao.prepareStatement(sql)) {
+            stm.setDouble(1, aporteInicial);
+            stm.setDouble(2, aportesMensais);
+            stm.setString(3, modalidade);
+            stm.setInt(4, prazo);
+            stm.setString(5, tipoPrazo);
+            stm.setString(6, tipoRentabilidade);
+            stm.setDouble(7, taxaCdi);
+            stm.setDouble(8, porcentagemCdi);
+            stm.setDouble(9, jurosAnual);
+            stm.setDouble(10, rendimentoBruto);
+            stm.executeUpdate();
+            salvoNoBanco = true;
+            mensagem = "Simulação salva com sucesso.";
         }
+    } catch (Exception e) {
+        mensagem = "Erro ao salvar a simulação: " + e.getMessage();
     }
+
 %>
 <!doctype html>
 <html lang="pt-BR">
@@ -147,15 +143,6 @@
         </span>
         <span class="text-base font-semibold text-gray-800">Voltar ao Menu</span>
       </a>
-    </div>
-
-    <div class="absolute top-4 right-4 z-10 flex items-center gap-3">
-      <% if (session.getAttribute("logado") != null && (Boolean) session.getAttribute("logado")) { %>
-        <span class="rounded-full bg-white px-4 py-2 text-sm font-medium text-gray-800 shadow-md">Olá, <%= session.getAttribute("usuarioNome") %></span>
-        <a href="logout.jsp" class="rounded-full bg-red-500 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-red-600">Sair</a>
-      <% } else { %>
-        <a href="login.html" class="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-blue-700">Entrar</a>
-      <% } %>
     </div>
 
     <div class="w-full max-w-6xl pt-12">
@@ -287,8 +274,6 @@
               <p class="mt-1 text-xs text-amber-700">Prazo total: <strong><%= meses %> meses</strong></p>
             </article>
           </div>
-
-          <p class="mt-6 text-sm text-gray-500">Os valores são calculados no JSP e, quando você estiver logado, também são salvos na tabela de investimentos.</p>
         </aside>
       </div>
     </div>
